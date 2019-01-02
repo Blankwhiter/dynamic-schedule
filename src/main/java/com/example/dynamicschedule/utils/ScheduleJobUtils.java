@@ -5,11 +5,14 @@ import com.example.dynamicschedule.base.Constant;
 import com.example.dynamicschedule.bean.ScheduleJob;
 import com.example.dynamicschedule.bean.ScheduleJobLog;
 
+import com.example.dynamicschedule.dao.ScheduleJobLogMapper;
+import com.example.dynamicschedule.service.ScheduleJobLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +31,9 @@ import java.util.concurrent.Future;
 public class ScheduleJobUtils extends QuartzJobBean {
 
 	private ExecutorService service = Executors.newSingleThreadExecutor();
+
+	@Autowired
+	private ScheduleJobLogMapper scheduleJobLogMapper;
 
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
@@ -77,7 +83,7 @@ public class ScheduleJobUtils extends QuartzJobBean {
 			jobLog.setStatus(one);
 			jobLog.setError(StringUtils.substring(e.toString(), 0, 2000));
 		}finally {
-//			scheduleJobLogService.insert(jobLog);
+			scheduleJobLogMapper.insertSelective(jobLog);
 		}
     }
 }
