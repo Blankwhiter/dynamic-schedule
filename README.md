@@ -208,7 +208,7 @@ INSERT INTO `schedule_job` (`bean_name`, `method_name`, `params`, `cron_expressi
 server.port=8888
 #数据库设置
 spring.datasource.driverClassName=com.mysql.jdbc.Driver
-spring.datasource.url=jdbc:mysql://47.99.200.71:3306/test?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=true
+spring.datasource.url=jdbc:mysql://localhost:3306/test?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=true
 spring.datasource.username=root
 spring.datasource.password=123456
 #--------------------------
