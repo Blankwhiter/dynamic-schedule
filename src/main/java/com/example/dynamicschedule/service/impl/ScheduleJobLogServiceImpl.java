@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service("scheduleJobLogService")
 public class ScheduleJobLogServiceImpl implements ScheduleJobLogService {
@@ -22,13 +23,17 @@ public class ScheduleJobLogServiceImpl implements ScheduleJobLogService {
 
 	@Override
 	public PageInfo queryPage(Map<String, Object> params) {
-		Long jobId = Long.parseLong(params.get("jobId").toString());
-		Integer page = Integer.parseInt(params.get("page").toString());
-		Integer pageSize = Integer.parseInt(params.get("pageSize").toString());
+		Object jobId = params.get("jobId");
+		int page = Integer.parseInt(params.getOrDefault("page", "1").toString());
+		int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10").toString());
 
 		PageHelper.startPage(page,pageSize);
 		ScheduleJobLogExample scheduleJobLogExample = new ScheduleJobLogExample();
-		scheduleJobLogExample.createCriteria().andJobIdEqualTo(jobId);
+		ScheduleJobLogExample.Criteria criteria = scheduleJobLogExample.createCriteria();
+		if (Objects.nonNull(jobId)) {
+			criteria.andJobIdEqualTo(Long.parseLong(jobId.toString()));
+		}
+
 		List<ScheduleJobLog> scheduleJobLogs = scheduleJobLogMapper.selectByExample(scheduleJobLogExample);
 		PageInfo pageInfo = new PageInfo<>(scheduleJobLogs);
 		return pageInfo;

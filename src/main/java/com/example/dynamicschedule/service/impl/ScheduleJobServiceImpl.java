@@ -54,12 +54,15 @@ public class ScheduleJobServiceImpl  implements ScheduleJobService {
 
 	@Override
 	public PageInfo queryPage(Map<String, Object> params) {
-		String beanName = (String)params.get("beanName");
 		int page = Integer.parseInt(params.getOrDefault("page", "1").toString());
 		int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10").toString());
 		PageHelper.startPage(page,pageSize);
 		ScheduleJobExample scheduleJobExample = new ScheduleJobExample();
-		scheduleJobExample.createCriteria().andBeanNameLike(beanName);
+		ScheduleJobExample.Criteria criteria = scheduleJobExample.createCriteria();
+		Object beanName = params.get("beanName");
+		if(Objects.nonNull(beanName)){
+			criteria.andBeanNameLike("%"+beanName+"%");
+		}
 		List<ScheduleJob> scheduleJobs = scheduleJobMapper.selectByExample(scheduleJobExample);
 		PageInfo pageInfo = new PageInfo<>(scheduleJobs);
 		return pageInfo;
@@ -104,6 +107,7 @@ public class ScheduleJobServiceImpl  implements ScheduleJobService {
     	for(Long jobId : jobIds){
     		ScheduleUtils.run(scheduler, scheduleJobMapper.selectByPrimaryKey(jobId));
     	}
+		updateBatch(jobIds, Constant.NORMAL);
     }
 
 	@Override

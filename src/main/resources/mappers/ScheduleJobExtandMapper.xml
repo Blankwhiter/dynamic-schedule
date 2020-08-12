@@ -4,14 +4,14 @@
     <update id="updateBatch" >
          update schedule_job set status =#{status} where   job_id in
         <foreach collection="ids"  item="id" open="(" separator="," close=")"  >
-                 #{id,jdbcType=INTEGER}
+          #{id,jdbcType=INTEGER}
         </foreach>
     </update>
 
     <delete id="deleteBatch" parameterType="java.util.List">
         delete from schedule_job where job_id in
          <foreach collection="ids"  item="id" open="(" separator="," close=")" index="index"  >
-             #{id,jdbcType=INTEGER}
+           #{id,jdbcType=INTEGER}
          </foreach>
 
     </delete>

@@ -1,5 +1,7 @@
 package com.example.dynamicschedule.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -19,7 +21,9 @@ public class ScheduleJobLog implements Serializable {
     private String error;
 
     private Integer times;
-
+    @JsonFormat(
+            pattern = "yyyy-MM-dd HH:mm:ss"
+    )
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
