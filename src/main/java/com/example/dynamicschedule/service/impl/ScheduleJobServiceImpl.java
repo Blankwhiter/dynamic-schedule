@@ -52,6 +52,11 @@ public class ScheduleJobServiceImpl  implements ScheduleJobService {
 		}
 	}
 
+
+	public ScheduleJob getScheduleJobByJobId(Long jobId){
+		return scheduleJobMapper.selectByPrimaryKey(jobId);
+	}
+
 	@Override
 	public PageInfo queryPage(Map<String, Object> params) {
 		int page = Integer.parseInt(params.getOrDefault("page", "1").toString());

@@ -13,6 +13,8 @@ import java.util.Map;
  */
 public interface ScheduleJobService   {
 
+	ScheduleJob getScheduleJobByJobId(Long jobId);
+
 	PageInfo queryPage(Map<String, Object> params);
 
 	/**

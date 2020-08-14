@@ -4,7 +4,12 @@
 码云： https://gitee.com/belonghuang/dynamic-schedule
 github： https://github.com/Blankwhiter/dynamic-schedule
 
-前端配套界面：https://github.com/Blankwhiter/vue-element-template
+前端配套界面：https://github.com/Blankwhiter/vue-admin-template
+
+更新日志：
+1.加入定时器 给定时间 得出下次执行时间点 
+参照 https://gitee.com/xxssyyyyssxx/cron-hms
+
 
 # 第一步 MySQL环境准备（可跳过）
 ### 1.在centos窗口中，拉取mysql镜像，并且创建该容器：
@@ -45,8 +50,8 @@ CREATE TABLE `schedule_job_log` (
   KEY `job_id` (`job_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='定时任务日志';
 
-INSERT INTO `schedule_job` (`bean_name`, `method_name`, `params`, `cron_expression`, `status`, `remark`, `create_time`) VALUES ('testTask', 'test', 'my-test', '0/10 * * * * ?', '0', '有参数测试', '2018-12-01 13:15:11');
-INSERT INTO `schedule_job` (`bean_name`, `method_name`, `params`, `cron_expression`, `status`, `remark`, `create_time`) VALUES ('testTask', 'test2', NULL, '0/15 * * * * ?', '1', '无参数测试', '2018-12-03 14:45:12');
+INSERT INTO `schedule_job` (`bean_name`, `method_name`, `params`, `cron_expression`, `status`, `remark`, `create_time`) VALUES ('testTask', 'test', 'my-test', '0/10 * * * * ? *', '0', '有参数测试', '2018-12-01 13:15:11');
+INSERT INTO `schedule_job` (`bean_name`, `method_name`, `params`, `cron_expression`, `status`, `remark`, `create_time`) VALUES ('testTask', 'test2', NULL, '0/15 * * * * ? *', '1', '无参数测试', '2018-12-03 14:45:12');
 
 ```
 *注：上方语句分别创建了定时任务表，以及定时任务日志表，并且加入两条有参数（每隔10秒），无参数（每隔15秒）的两个定时器*
